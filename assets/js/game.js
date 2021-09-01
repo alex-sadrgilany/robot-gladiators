@@ -13,6 +13,12 @@ var enemyNames = ["Roborto", "Amy Android", "Robo Trumble"];
 var enemyHealth = 50;
 var enemyAttack = 12;
 
+var randomNumber = function(min, max) {
+    var value = Math.floor(Math.random() * (max - min + 1) + min);
+
+    return value;
+}
+
 // this creates a function named "fight"
 
 var fight = function(enemyName) {
@@ -33,7 +39,7 @@ var fight = function(enemyName) {
             if (confirmSkip) {
                 window.alert(playerName + " has decided to skip this fight. Goodbye!");
                 // subtract money from playerMoney for skipping
-                playerMoney = playerMoney - 10;
+                playerMoney = Math.max(0, playerMoney - 10);
                 console.log("playerMoney", playerMoney);
                 break;
             }
@@ -41,7 +47,9 @@ var fight = function(enemyName) {
         }
         
         // subtract the value of 'playerAttack' from the value of 'enemyHealth' and use that result to update the value in the 'enemyHealth' variable.
-        enemyHealth = enemyHealth - playerAttack;
+        var damage = randomNumber(playerAttack - 3, playerAttack);
+        
+        enemyHealth = Math.max(0, enemyHealth - damage);
         
         // log a resulting message to the console so that we know it worked.
         console.log(
@@ -60,7 +68,9 @@ var fight = function(enemyName) {
         }
         
         // Subtract the value of `enemyAttack` from the value of `playerHealth` and use that result to update the value in the `playerHealth` variable.
-        playerHealth = playerHealth - enemyAttack;
+        var damage = randomNumber(enemyAttack - 3, enemyAttack);
+        
+        playerHealth = Math.max(0, playerHealth - damage);
         
         // log a resulting message to the console so that we know it worked.
         console.log(
@@ -93,7 +103,7 @@ var startGame = function() {
 
             var pickedEnemyName = enemyNames[i];
 
-            enemyHealth = 50;
+            enemyHealth = randomNumber(40, 60);
 
             fight(pickedEnemyName);
         }
